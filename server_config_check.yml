@@ -1,0 +1,37 @@
+---
+- name: Linux Server Information
+  hosts: linux_servers
+  become: true
+  gather_facts: true
+
+  tasks:
+
+    - name: Display hostname
+      ansible.builtin.debug:
+        msg: "Hostname: {{ ansible_hostname }}"
+
+    - name: Display operating system
+      ansible.builtin.debug:
+        msg: "OS: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+    - name: Display kernel version
+      ansible.builtin.debug:
+        msg: "Kernel: {{ ansible_kernel }}"
+
+    - name: Check uptime
+      ansible.builtin.command: uptime
+      register: uptime_output
+      changed_when: false
+
+    - name: Display uptime
+      ansible.builtin.debug:
+        var: uptime_output.stdout
+
+    - name: Check root filesystem
+      ansible.builtin.command: df -h /
+      register: disk_output
+      changed_when: false
+
+    - name: Display root filesystem
+      ansible.builtin.debug:
+        var: disk_output.stdout
