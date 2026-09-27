@@ -1,6 +1,6 @@
 ---
 - name: Linux Server Information
-  hosts: linux_servers
+  hosts: *
   become: true
   gather_facts: true
 
